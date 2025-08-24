@@ -4,20 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.Test;
-
-import java.security.PublicKey;
+import config.Config;
 
 public class ResetPasswordPage {
     WebDriver driver ;
     WebDriverWait wait ;
 
-    public  ResetPasswordPage(WebDriver driver , WebDriverWait Wait){
-        this.wait = Wait;
-        this.driver = driver;
-    }
+    private static final String loginPageUrl = Config.baseURL;
+    private static final String resetPageUrl = Config.resetPasswordPageUrl;
 
     private By resetPasswordLink = By.xpath("//p[text()='Forgot your password? ']");
     private By usernameField = By.name("username");
@@ -26,10 +21,17 @@ public class ResetPasswordPage {
     private By CancelButton = By.xpath("//button[text()=' Cancel ']");
     private By ResetSuccessMessage = By.xpath("//h6[text()='Reset Password link sent successfully']");
 
+    public  ResetPasswordPage(WebDriver driver , WebDriverWait Wait){
+        this.wait = Wait;
+        this.driver = driver;
+    }
+
+
+
     public boolean navigateToPasswordReset (){
         wait.until(ExpectedConditions.visibilityOfElementLocated(resetPasswordLink)).click();
         try{
-        boolean urlChanged = wait.until(ExpectedConditions.urlMatches("https://opensource-demo.orangehrmlive.com/web/index.php/auth/requestPasswordResetCode"));
+        boolean urlChanged = wait.until(ExpectedConditions.urlMatches(resetPageUrl));
         return urlChanged;
         } catch (RuntimeException e) {
             return false;
@@ -68,7 +70,7 @@ public class ResetPasswordPage {
 
         try {
             return wait.until(ExpectedConditions.urlMatches(
-                    "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+                    loginPageUrl
             ));
         } catch (TimeoutException e) {
             return false;
