@@ -23,8 +23,8 @@ public class LoginPage {
     private By loginButton = By.className("orangehrm-login-button");
     private By dashboardHeader = By.xpath("//h6[text()='Dashboard']");
     String dashboardURL ="https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index";
-
-
+    private By profileDropdown = By.xpath("//p[@class='oxd-userdropdown-name']");
+    private By logoutButton = By.xpath("//li/a[@class='oxd-userdropdown-link' and text() = 'Logout']");
 
 public boolean testLogin(String username, String password){
     webDriver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
@@ -40,5 +40,23 @@ public boolean testLogin(String username, String password){
      return false;
  }
 }
+
+public boolean testLogout (){
+    webDriver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys("Admin");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys("admin123");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).click();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(profileDropdown)).click();
+    wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButton)).click();
+    try {
+        boolean urlMatched = wait.until(ExpectedConditions.urlToBe(
+                "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+        ));
+        return urlMatched;
+    } catch (TimeoutException e) {
+        return false;
+    }
+}
+
 }
 

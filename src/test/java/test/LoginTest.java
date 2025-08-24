@@ -14,7 +14,6 @@ public class LoginTest extends BaseTest {
                 {"Admin", "admin123", true},
                 {"Adm", "admin123", false},
                 {"AMOgha","",false},
-
         };
     }
 
@@ -25,6 +24,13 @@ public class LoginTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult,
                 "Login result mismatch for: " + username + " / " + password);
+    }
+
+    @Test
+    public void testLogout(){
+        LoginPage loginPage = new LoginPage(driver, wait);
+        boolean result = loginPage.testLogout();
+        Assert.assertTrue(result,"Logout failed");
     }
 
 }
